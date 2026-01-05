@@ -32,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* Background texture */
         body::before {
             content: '';
             position: fixed;
@@ -58,7 +57,6 @@
             padding: 40px 20px;
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 50px;
@@ -100,7 +98,6 @@
             text-transform: uppercase;
         }
 
-        /* Input Section */
         .input-section {
             background: linear-gradient(145deg, var(--charcoal), var(--steel));
             border: 1px solid var(--concrete);
@@ -277,7 +274,6 @@
             box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
         }
 
-        /* Estimated 1RM Display */
         .estimated-1rm {
             background: rgba(212, 160, 23, 0.1);
             border: 1px solid var(--gold);
@@ -326,8 +322,8 @@
         .program-header {
             background: linear-gradient(145deg, var(--charcoal), var(--steel));
             border: 1px solid var(--concrete);
-            padding: 30px 40px;
-            margin-bottom: 2px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -359,149 +355,93 @@
             color: var(--text-dim);
         }
 
-        /* Week Grid */
-        .week {
-            background: linear-gradient(145deg, var(--charcoal), var(--steel));
+        /* Condensed Table Styles */
+        .program-table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .program-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .program-table th {
+            background: var(--red-dark);
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 14px 10px;
+            text-align: center;
+        }
+
+        .program-table th:first-child {
+            width: 100px;
+        }
+
+        .program-table td {
             border: 1px solid var(--concrete);
-            margin-bottom: 2px;
-            overflow: hidden;
-        }
-
-        .week-header {
-            background: var(--black);
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .week-header:hover {
+            padding: 14px 10px;
+            text-align: center;
+            vertical-align: middle;
             background: var(--charcoal);
         }
 
-        .week-title {
+        .program-table td:first-child {
+            background: var(--steel);
             font-family: 'Oswald', sans-serif;
-            font-size: 1.1rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .week-summary {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-        }
-
-        .week-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .day {
-            background: var(--black);
-            padding: 20px;
-            border: 2px solid var(--concrete);
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .day::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gold);
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--concrete);
-        }
-
-        .day-title {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 500;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--gold);
         }
 
-        .day-volume {
-            font-size: 0.75rem;
-            color: var(--text-dim);
+        .program-table tr:nth-child(even) td:not(:first-child) {
+            background: var(--steel);
         }
 
-        .set-row {
+        .day-content {
             display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .day-percent {
+            background: var(--black);
+            color: var(--red);
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 2px;
+            min-width: 42px;
+        }
+
+        .day-prescription {
+            color: var(--text);
             font-size: 0.9rem;
         }
 
-        .set-row:last-child {
-            border-bottom: none;
+        /* Max attempt cell */
+        .max-cell {
+            background: linear-gradient(145deg, rgba(196, 30, 58, 0.25), rgba(139, 0, 0, 0.35)) !important;
         }
 
-        .set-weight {
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .set-reps {
-            color: var(--text-dim);
-        }
-
-        .set-percentage {
-            color: var(--red);
-            font-size: 0.8rem;
-        }
-
-        /* Final Week Highlight */
-        .week.final .week-header {
-            background: linear-gradient(145deg, var(--red-dark), var(--red));
-        }
-
-        .week.final .week-title {
+        .max-cell .day-percent {
+            background: var(--red);
             color: white;
         }
 
-        .max-attempt {
-            background: linear-gradient(145deg, rgba(196, 30, 58, 0.2), rgba(139, 0, 0, 0.2));
-            border: 2px solid var(--red);
-            border-radius: 4px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        .max-cell .day-prescription {
+            color: var(--gold);
+            font-weight: 600;
         }
 
-        .max-attempt::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--red);
-        }
-
-        .max-attempt .set-weight {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
-            color: var(--red);
-        }
-
-        /* Print Button */
+        /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -594,12 +534,7 @@
             color: var(--gold);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .week-content {
-                grid-template-columns: 1fr;
-            }
-
+        @media (max-width: 600px) {
             .program-stats {
                 gap: 20px;
             }
@@ -607,9 +542,28 @@
             .input-section {
                 padding: 25px;
             }
+
+            .program-table th,
+            .program-table td {
+                padding: 10px 6px;
+                font-size: 0.8rem;
+            }
+
+            .day-content {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .day-percent {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+
+            .day-prescription {
+                font-size: 0.75rem;
+            }
         }
 
-        /* Print Styles */
         @media print {
             body {
                 background: white;
@@ -620,7 +574,7 @@
                 display: none;
             }
 
-            .input-section, .action-buttons, .formula-info {
+            .input-section, .action-buttons, .info-sections {
                 display: none;
             }
 
@@ -628,12 +582,16 @@
                 display: block !important;
             }
 
-            .week, .day, .program-header {
-                background: white;
-                border: 1px solid #ccc;
+            .program-table th {
+                background: #333;
             }
 
-            .set-weight, .day-title, .week-title {
+            .program-table td {
+                background: white;
+                border-color: #ccc;
+            }
+
+            .day-prescription {
                 color: black;
             }
         }
@@ -718,7 +676,20 @@
                 </div>
             </div>
 
-            <div id="weeks-container"></div>
+            <div class="program-table-container">
+                <table class="program-table" id="program-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Day 1</th>
+                            <th>Day 2</th>
+                            <th>Day 3</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
 
             <div class="action-buttons">
                 <button class="action-btn" id="reset-btn">↺ New Program</button>
@@ -760,8 +731,6 @@
     </div>
 
     <script>
-        // Program data structure (percentages and sets/reps for each day)
-        // Based on the original Soviet/Russian Squat Program
         const programTemplate = [
             // Week 1
             [
@@ -801,12 +770,10 @@
             ]
         ];
 
-        // State
         let currentUnit = 'lbs';
         let currentMode = '1rm';
         let calculated1RM = 0;
 
-        // DOM Elements
         const modeBtns = document.querySelectorAll('.mode-btn');
         const unitBtns = document.querySelectorAll('.unit-btn');
         const directInput = document.getElementById('direct-input');
@@ -818,21 +785,18 @@
         const estimatedValue = document.getElementById('estimated-value');
         const generateBtn = document.getElementById('generate');
         const programOutput = document.getElementById('program-output');
-        const weeksContainer = document.getElementById('weeks-container');
+        const tableBody = document.getElementById('table-body');
         const resetBtn = document.getElementById('reset-btn');
 
-        // Brzycki formula for 1RM estimation
         function estimate1RM(weight, reps) {
             if (reps === 1) return weight;
             return Math.round(weight * (36 / (37 - reps)));
         }
 
-        // Calculate weight (no rounding, show exact like original)
         function calcWeight(oneRM, percent) {
-            return (oneRM * (percent / 100)).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+            return (oneRM * (percent / 100)).toFixed(1).replace(/\.0$/, '');
         }
 
-        // Mode toggle
         modeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 modeBtns.forEach(b => b.classList.remove('active'));
@@ -851,7 +815,6 @@
             });
         });
 
-        // Unit toggle
         unitBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 unitBtns.forEach(b => b.classList.remove('active'));
@@ -860,7 +823,6 @@
             });
         });
 
-        // Update estimate on input change
         function updateEstimate() {
             const weight = parseFloat(weightLifted.value);
             const reps = parseInt(repsCompleted.value);
@@ -877,7 +839,6 @@
         weightLifted.addEventListener('input', updateEstimate);
         repsCompleted.addEventListener('change', updateEstimate);
 
-        // Generate program
         generateBtn.addEventListener('click', () => {
             let oneRM;
 
@@ -896,62 +857,44 @@
         });
 
         function generateProgram(oneRM) {
-            weeksContainer.innerHTML = '';
+            tableBody.innerHTML = '';
             let totalReps = 0;
 
             programTemplate.forEach((week, weekIndex) => {
-                const weekDiv = document.createElement('div');
-                weekDiv.className = `week ${weekIndex === 5 ? 'final' : ''}`;
+                const row = document.createElement('tr');
+                
+                // Week label cell
+                const weekCell = document.createElement('td');
+                weekCell.textContent = `Week ${weekIndex + 1}`;
+                row.appendChild(weekCell);
 
-                const weekReps = week.reduce((sum, day) => sum + (day.sets * day.reps), 0);
-                totalReps += weekReps;
+                // Day cells
+                week.forEach((day) => {
+                    const dayCell = document.createElement('td');
+                    const weight = calcWeight(oneRM, day.percent);
+                    totalReps += day.sets * day.reps;
 
-                weekDiv.innerHTML = `
-                    <div class="week-header">
-                        <span class="week-title">Week ${weekIndex + 1}</span>
-                        <span class="week-summary">${weekReps} total reps</span>
-                    </div>
-                    <div class="week-content">
-                        ${week.map((day, dayIndex) => {
-                            const weight = calcWeight(oneRM, day.percent);
-                            const dayVolume = day.sets * day.reps;
+                    if (day.isMax) {
+                        dayCell.classList.add('max-cell');
+                        dayCell.innerHTML = `
+                            <div class="day-content">
+                                <span class="day-percent">${day.percent}%</span>
+                                <span class="day-prescription">New max @ ${weight}</span>
+                            </div>
+                        `;
+                    } else {
+                        dayCell.innerHTML = `
+                            <div class="day-content">
+                                <span class="day-percent">${day.percent}%</span>
+                                <span class="day-prescription">${day.sets} sets of ${day.reps} reps</span>
+                            </div>
+                        `;
+                    }
 
-                            if (day.isMax) {
-                                return `
-                                    <div class="day max-attempt">
-                                        <div class="day-header">
-                                            <span class="day-title">Day ${dayIndex + 1} - Max Attempt</span>
-                                        </div>
-                                        <div class="set-row">
-                                            <span class="set-weight">ATTEMPT NEW MAX: ${calcWeight(oneRM, 105)} ${currentUnit}</span>
-                                        </div>
-                                        <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-dim);">
-                                            Work up to your new max. You should be able to hit 105% of your previous 1RM.
-                                        </p>
-                                    </div>
-                                `;
-                            }
+                    row.appendChild(dayCell);
+                });
 
-                            return `
-                                <div class="day">
-                                    <div class="day-header">
-                                        <span class="day-title">Day ${dayIndex + 1}</span>
-                                        <span class="day-volume">${dayVolume} reps</span>
-                                    </div>
-                                    ${Array(day.sets).fill().map((_, i) => `
-                                        <div class="set-row">
-                                            <span class="set-weight">${weight} ${currentUnit}</span>
-                                            <span class="set-reps">× ${day.reps}</span>
-                                            <span class="set-percentage">${day.percent}%</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-
-                weeksContainer.appendChild(weekDiv);
+                tableBody.appendChild(row);
             });
 
             document.getElementById('display-1rm').textContent = oneRM;
@@ -961,7 +904,6 @@
             programOutput.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Reset
         resetBtn.addEventListener('click', () => {
             programOutput.classList.remove('show');
             direct1rm.value = '';
