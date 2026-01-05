@@ -415,10 +415,10 @@
             background: var(--black);
             color: var(--red);
             font-weight: 600;
-            font-size: 0.8rem;
-            padding: 4px 8px;
+            font-size: 0.85rem;
+            padding: 4px 10px;
             border-radius: 2px;
-            min-width: 42px;
+            min-width: 50px;
         }
 
         .day-prescription {
@@ -878,14 +878,14 @@
                         dayCell.classList.add('max-cell');
                         dayCell.innerHTML = `
                             <div class="day-content">
-                                <span class="day-percent">${day.percent}%</span>
-                                <span class="day-prescription">New max @ ${weight}</span>
+                                <span class="day-percent">${weight}</span>
+                                <span class="day-prescription">New max attempt!</span>
                             </div>
                         `;
                     } else {
                         dayCell.innerHTML = `
                             <div class="day-content">
-                                <span class="day-percent">${day.percent}%</span>
+                                <span class="day-percent">${weight}</span>
                                 <span class="day-prescription">${day.sets} sets of ${day.reps} reps</span>
                             </div>
                         `;
