@@ -98,6 +98,40 @@
             text-transform: uppercase;
         }
 
+        .lift-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-top: 24px;
+            border: 2px solid var(--concrete);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .lift-btn {
+            padding: 12px 36px;
+            background: var(--black);
+            border: none;
+            color: var(--text-dim);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .lift-btn.active {
+            background: var(--red);
+            color: white;
+        }
+
+        .lift-btn:not(.active):hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+
         .input-section {
             background: linear-gradient(145deg, var(--charcoal), var(--steel));
             border: 1px solid var(--concrete);
@@ -600,7 +634,11 @@
 <body>
     <div class="container">
         <header>
-            <h1>Soviet <span>Strength</span> Program</h1>
+            <h1>Soviet Based <span>Strength</span> Program</h1>
+            <div class="lift-toggle">
+                <button class="lift-btn active" data-lift="squat">Squat</button>
+                <button class="lift-btn" data-lift="bench">Bench</button>
+            </div>
         </header>
 
         <section class="input-section">
@@ -727,45 +765,86 @@
     </div>
 
     <script>
-        const programTemplate = [
-            // Week 1
-            [
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 80, sets: 6, reps: 3 },
-                { percent: 80, sets: 6, reps: 2 }
+        const programs = {
+            squat: [
+                // Week 1
+                [
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 80, sets: 6, reps: 3 },
+                    { percent: 80, sets: 6, reps: 2 }
+                ],
+                // Week 2
+                [
+                    { percent: 80, sets: 6, reps: 4 },
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 80, sets: 6, reps: 5 }
+                ],
+                // Week 3
+                [
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 80, sets: 6, reps: 6 },
+                    { percent: 80, sets: 6, reps: 2 }
+                ],
+                // Week 4
+                [
+                    { percent: 85, sets: 5, reps: 5 },
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 90, sets: 4, reps: 4 }
+                ],
+                // Week 5
+                [
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 95, sets: 3, reps: 3 },
+                    { percent: 80, sets: 6, reps: 2 }
+                ],
+                // Week 6
+                [
+                    { percent: 100, sets: 2, reps: 2 },
+                    { percent: 80, sets: 6, reps: 2 },
+                    { percent: 105, sets: 1, reps: 1, isMax: true }
+                ]
             ],
-            // Week 2
-            [
-                { percent: 80, sets: 6, reps: 4 },
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 80, sets: 6, reps: 5 }
-            ],
-            // Week 3
-            [
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 80, sets: 6, reps: 6 },
-                { percent: 80, sets: 6, reps: 2 }
-            ],
-            // Week 4
-            [
-                { percent: 85, sets: 5, reps: 5 },
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 90, sets: 4, reps: 4 }
-            ],
-            // Week 5
-            [
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 95, sets: 3, reps: 3 },
-                { percent: 80, sets: 6, reps: 2 }
-            ],
-            // Week 6
-            [
-                { percent: 100, sets: 2, reps: 2 },
-                { percent: 80, sets: 6, reps: 2 },
-                { percent: 105, sets: 1, reps: 1, isMax: true }
+            bench: [
+                // Week 1 — Day A: 80% 6×3, Day B: 70% 5×3, Day C: 80% 6×4
+                [
+                    { percent: 80, sets: 6, reps: 3 },
+                    { percent: 70, sets: 5, reps: 3 },
+                    { percent: 80, sets: 6, reps: 4 }
+                ],
+                // Week 2 — Day A: 80% 8×3, Day B: 70% 5×3, Day C: 80% 7×4
+                [
+                    { percent: 80, sets: 8, reps: 3 },
+                    { percent: 70, sets: 5, reps: 3 },
+                    { percent: 80, sets: 7, reps: 4 }
+                ],
+                // Week 3 — Day A: 80% 6×3, Day B: 70% 5×3, Day C: 80% 6×5
+                [
+                    { percent: 80, sets: 6, reps: 3 },
+                    { percent: 70, sets: 5, reps: 3 },
+                    { percent: 80, sets: 6, reps: 5 }
+                ],
+                // Week 4 — Day A: 85% 5×3, Day B: 70% 5×3, Day C: 87.5% 4×2
+                [
+                    { percent: 85, sets: 5, reps: 3 },
+                    { percent: 70, sets: 5, reps: 3 },
+                    { percent: 87.5, sets: 4, reps: 2 }
+                ],
+                // Week 5 — Day A: 90% 4×2, Day B: 70% 4×3, Day C: 92.5% 3×2
+                [
+                    { percent: 90, sets: 4, reps: 2 },
+                    { percent: 70, sets: 4, reps: 3 },
+                    { percent: 92.5, sets: 3, reps: 2 }
+                ],
+                // Week 6 — Day A: 95% 2×1 then 85% 2×3, Day B: 65% 3×3, Day C: 102.5% max
+                [
+                    { percent: 95, sets: 2, reps: 1, note: 'then 85% 2×3' },
+                    { percent: 65, sets: 3, reps: 3 },
+                    { percent: 102.5, sets: 1, reps: 1, isMax: true }
+                ]
             ]
-        ];
+        };
 
+        let currentLift = 'squat';
         let currentUnit = 'lbs';
         let currentMode = '1rm';
         let calculated1RM = 0;
@@ -792,6 +871,17 @@
         function calcWeight(oneRM, percent) {
             return (oneRM * (percent / 100)).toFixed(1).replace(/\.0$/, '');
         }
+
+        const liftBtns = document.querySelectorAll('.lift-btn');
+        liftBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                liftBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLift = btn.dataset.lift;
+                // hide any previously generated program when switching lift
+                programOutput.classList.remove('show');
+            });
+        });
 
         modeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -856,9 +946,9 @@
             tableBody.innerHTML = '';
             let totalReps = 0;
 
-            programTemplate.forEach((week, weekIndex) => {
+            programs[currentLift].forEach((week, weekIndex) => {
                 const row = document.createElement('tr');
-                
+
                 // Week label cell
                 const weekCell = document.createElement('td');
                 weekCell.textContent = `Week ${weekIndex + 1}`;
@@ -876,6 +966,14 @@
                             <div class="day-content">
                                 <span class="day-percent">${weight}</span>
                                 <span class="day-prescription">New max attempt!</span>
+                            </div>
+                        `;
+                    } else if (day.note) {
+                        const noteWeight = calcWeight(oneRM, 85);
+                        dayCell.innerHTML = `
+                            <div class="day-content" style="flex-direction:column;gap:6px;">
+                                <div><span class="day-percent">${weight}</span> <span class="day-prescription">${day.sets}×${day.reps}</span></div>
+                                <div style="font-size:0.8rem;color:var(--text-dim);">then <span style="color:var(--gold)">${noteWeight}</span> 2×3</div>
                             </div>
                         `;
                     } else {
