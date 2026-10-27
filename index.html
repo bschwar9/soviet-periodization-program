@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soviet Strength Program Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Soviet Strength Program</title>
     <style>
         :root {
-            --red: #c41e3a;
-            --red-dark: #8b0000;
-            --gold: #d4a017;
-            --black: #0a0a0a;
-            --charcoal: #1a1a1a;
-            --steel: #2d2d2d;
-            --concrete: #3a3a3a;
-            --text: #e8e8e8;
-            --text-dim: #888;
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --muted: #6b6b6b;
+            --line: #e4e4e4;
+            --accent: #b3261e;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #141414;
+                --text: #ececec;
+                --muted: #9a9a9a;
+                --line: #2c2c2c;
+                --accent: #e5574f;
+            }
         }
 
         * {
@@ -25,779 +30,331 @@
         }
 
         body {
-            font-family: 'Roboto Mono', monospace;
-            background: var(--black);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255,255,255,0.01) 2px,
-                    rgba(255,255,255,0.01) 4px
-                );
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .container {
-            max-width: 1000px;
+        main {
+            max-width: 680px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .star {
-            width: 60px;
-            height: 60px;
-            fill: var(--red);
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 20px rgba(196, 30, 58, 0.5));
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(196, 30, 58, 0.3)); }
-            50% { filter: drop-shadow(0 0 30px rgba(196, 30, 58, 0.6)); }
+            padding: 56px 16px 80px;
         }
 
         h1 {
-            font-family: 'Oswald', sans-serif;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-
-        h1 span {
-            color: var(--red);
-        }
-
-        .subtitle {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-        }
-
-        .lift-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            margin-top: 24px;
-            border: 2px solid var(--concrete);
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .lift-btn {
-            padding: 12px 36px;
-            background: var(--black);
-            border: none;
-            color: var(--text-dim);
-            font-family: 'Oswald', sans-serif;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .lift-btn.active {
-            background: var(--red);
-            color: white;
-        }
-
-        .lift-btn:not(.active):hover {
-            color: var(--text);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .input-section {
-            background: linear-gradient(145deg, var(--charcoal), var(--steel));
-            border: 1px solid var(--concrete);
-            padding: 40px;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .input-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--red);
-        }
-
-        .section-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.75rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: -0.01em;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--gold), transparent);
+        .lede {
+            color: var(--muted);
+            margin-top: 6px;
         }
 
-        .input-mode {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            flex: 1;
-            min-width: 200px;
-            padding: 15px 25px;
-            background: var(--black);
-            border: 2px solid var(--concrete);
-            color: var(--text-dim);
-            font-family: 'Oswald', sans-serif;
+        h2 {
             font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mode-btn:hover {
-            border-color: var(--text-dim);
-            color: var(--text);
-        }
-
-        .mode-btn.active {
-            border-color: var(--red);
-            color: var(--red);
-            background: rgba(196, 30, 58, 0.1);
-        }
-
-        .input-group {
-            display: none;
-            gap: 20px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .input-group.active {
-            display: flex;
-        }
-
-        .field {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-dim);
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
+        section {
+            margin-top: 48px;
+        }
+
+        .lift-toggle {
+            display: inline-flex;
+            margin-top: 24px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 3px;
+        }
+
+        .lift-toggle button {
+            font: inherit;
+            font-weight: 500;
+            color: var(--muted);
+            background: transparent;
+            border: 0;
+            border-radius: 6px;
+            padding: 8px 20px;
+            min-height: 40px;
+            cursor: pointer;
+        }
+
+        .lift-toggle button[aria-pressed="true"] {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Inputs */
+        .inputs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin-top: 32px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field.grow {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
         input, select {
-            width: 100%;
-            padding: 15px;
-            background: var(--black);
-            border: 1px solid var(--concrete);
-            color: var(--text);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font: inherit;
+            color: inherit;
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 10px 12px;
+            min-height: 44px;
         }
 
         input:focus, select:focus {
-            outline: none;
-            border-color: var(--red);
-            box-shadow: 0 0 15px rgba(196, 30, 58, 0.2);
+            outline: 2px solid var(--accent);
+            outline-offset: -1px;
+            border-color: transparent;
         }
 
-        input::placeholder {
-            color: var(--text-dim);
+        .note {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--muted);
+            min-height: 1.35em;
         }
 
-        .unit-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .unit-btn {
-            padding: 10px 20px;
-            background: var(--black);
-            border: 1px solid var(--concrete);
-            color: var(--text-dim);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .unit-btn.active {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .generate-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(145deg, var(--red), var(--red-dark));
-            border: none;
-            color: white;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
+        .note strong {
+            color: var(--text);
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .generate-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
+        /* Program table */
+        .empty {
+            color: var(--muted);
+            padding: 24px 0;
+            border-top: 1px solid var(--line);
         }
 
-        .generate-btn:hover::before {
-            left: 100%;
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
-        }
-
-        .estimated-1rm {
-            background: rgba(212, 160, 23, 0.1);
-            border: 1px solid var(--gold);
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            display: none;
-        }
-
-        .estimated-1rm.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .estimated-1rm span {
-            color: var(--gold);
-            font-weight: 500;
-        }
-
-        .estimate-warning {
-            margin-top: 10px;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            opacity: 0.9;
-        }
-
-        /* Program Output */
-        .program-output {
-            display: none;
-        }
-
-        .program-output.show {
-            display: block;
-            animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .program-header {
-            background: linear-gradient(145deg, var(--charcoal), var(--steel));
-            border: 1px solid var(--concrete);
-            padding: 25px 30px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .program-stats {
-            display: flex;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--red);
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-dim);
-        }
-
-        /* Condensed Table Styles */
-        .program-table-container {
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-
-        .program-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
+            font-variant-numeric: tabular-nums;
         }
 
-        .program-table th {
-            background: var(--red-dark);
-            color: white;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 14px 10px;
-            text-align: center;
+        th, td {
+            text-align: left;
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: top;
         }
 
-        .program-table th:first-child {
-            width: 100px;
-        }
-
-        .program-table td {
-            border: 1px solid var(--concrete);
-            padding: 14px 10px;
-            text-align: center;
-            vertical-align: middle;
-            background: var(--charcoal);
-        }
-
-        .program-table td:first-child {
-            background: var(--steel);
-            font-family: 'Oswald', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .program-table tr:nth-child(even) td:not(:first-child) {
-            background: var(--steel);
-        }
-
-        .day-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .day-percent {
-            background: var(--black);
-            color: var(--red);
-            font-weight: 600;
+        th {
             font-size: 0.85rem;
-            padding: 4px 10px;
-            border-radius: 2px;
-            min-width: 50px;
+            font-weight: 500;
+            color: var(--muted);
         }
 
-        .day-prescription {
-            color: var(--text);
-            font-size: 0.9rem;
+        th:first-child, td:first-child {
+            padding-left: 0;
+            width: 3.5em;
+            color: var(--muted);
         }
 
-        /* Max attempt cell */
-        .max-cell {
-            background: linear-gradient(145deg, rgba(196, 30, 58, 0.25), rgba(139, 0, 0, 0.35)) !important;
-        }
-
-        .max-cell .day-percent {
-            background: var(--red);
-            color: white;
-        }
-
-        .max-cell .day-prescription {
-            color: var(--gold);
+        .weight {
+            display: block;
             font-weight: 600;
+            white-space: nowrap;
         }
 
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            flex: 1;
-            min-width: 150px;
-            padding: 15px 25px;
-            background: var(--steel);
-            border: 1px solid var(--concrete);
-            color: var(--text);
-            font-family: 'Oswald', sans-serif;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: var(--concrete);
-            border-color: var(--text-dim);
-        }
-
-        /* Info Sections */
-        .info-sections {
-            margin-top: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .info-card {
-            background: var(--charcoal);
-            border-left: 3px solid var(--gold);
-            padding: 25px 30px;
-        }
-
-        .info-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--gold);
-            margin-bottom: 12px;
-        }
-
-        .info-card p {
+        .scheme {
+            display: block;
             font-size: 0.85rem;
-            line-height: 1.7;
-            color: var(--text-dim);
+            color: var(--muted);
+            white-space: nowrap;
         }
 
-        .info-card strong {
+        .max .weight,
+        .max .scheme {
+            color: var(--accent);
+        }
+
+        .summary {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        /* Notes */
+        .about p, .about li {
+            color: var(--muted);
+        }
+
+        .about p + p {
+            margin-top: 12px;
+        }
+
+        .about strong, .about em {
             color: var(--text);
         }
 
-        .reading-list {
+        .about ul {
             list-style: none;
-            padding: 0;
         }
 
-        .reading-list li {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .about li + li {
+            margin-top: 4px;
         }
 
-        .reading-list li:last-child {
-            border-bottom: none;
-        }
-
-        .reading-list em {
-            color: var(--text);
-            font-style: italic;
-        }
-
-        .video-link {
-            color: var(--red);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .video-link:hover {
-            color: var(--gold);
-        }
-
-        @media (max-width: 600px) {
-            .program-stats {
-                gap: 20px;
-            }
-
-            .input-section {
-                padding: 25px;
-            }
-
-            .program-table th,
-            .program-table td {
-                padding: 10px 6px;
-                font-size: 0.8rem;
-            }
-
-            .day-content {
-                flex-direction: column;
-                gap: 4px;
-            }
-
-            .day-percent {
-                font-size: 0.7rem;
-                padding: 3px 6px;
-            }
-
-            .day-prescription {
-                font-size: 0.75rem;
-            }
+        a {
+            color: var(--accent);
         }
 
         @media print {
-            body {
-                background: white;
-                color: black;
+            :root {
+                --bg: #fff;
+                --text: #000;
+                --muted: #555;
+                --line: #ccc;
             }
 
-            body::before {
+            .inputs, .note, .about {
                 display: none;
             }
 
-            .input-section, .action-buttons, .info-sections {
-                display: none;
-            }
-
-            .program-output {
-                display: block !important;
-            }
-
-            .program-table th {
-                background: #333;
-            }
-
-            .program-table td {
-                background: white;
-                border-color: #ccc;
-            }
-
-            .day-prescription {
-                color: black;
+            main {
+                padding-top: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <main>
         <header>
-            <h1>Soviet Based <span>Strength</span> Program</h1>
-            <div class="lift-toggle">
-                <button class="lift-btn active" data-lift="squat">Squat</button>
-                <button class="lift-btn" data-lift="bench">Bench</button>
+            <h1>Soviet Based Strength Program</h1>
+            <p class="lede">A 6-week, 3-day-a-week peaking cycle for one lift, based on your 1-rep max.</p>
+            <div class="lift-toggle" role="group" aria-label="Lift">
+                <button type="button" data-lift="squat" aria-pressed="true">Squat</button>
+                <button type="button" data-lift="bench" aria-pressed="false">Bench</button>
             </div>
         </header>
 
-        <section class="input-section">
-            <h2 class="section-title">Configure Your Program</h2>
-
-            <div class="input-mode">
-                <button class="mode-btn active" data-mode="1rm">I Know My 1RM</button>
-                <button class="mode-btn" data-mode="estimate">Estimate From Reps</button>
+        <div class="inputs">
+            <div class="field grow">
+                <label for="weight">Weight</label>
+                <input type="number" id="weight" inputmode="decimal" min="0" placeholder="e.g. 225">
             </div>
-
-            <div class="input-group active" id="direct-input">
-                <div class="field">
-                    <label>Your 1-Rep Maximum</label>
-                    <input type="number" id="direct-1rm" placeholder="Enter weight...">
-                </div>
+            <div class="field">
+                <label for="reps">Reps</label>
+                <select id="reps">
+                    <option value="1" selected>1 (true max)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                </select>
             </div>
-
-            <div class="input-group" id="estimate-input">
-                <div class="field">
-                    <label>Weight Lifted</label>
-                    <input type="number" id="weight-lifted" placeholder="Enter weight...">
-                </div>
-                <div class="field">
-                    <label>Reps Completed</label>
-                    <select id="reps-completed">
-                        <option value="1">1 rep</option>
-                        <option value="2">2 reps</option>
-                        <option value="3">3 reps</option>
-                        <option value="4">4 reps</option>
-                        <option value="5" selected>5 reps</option>
-                        <option value="6">6 reps</option>
-                        <option value="7">7 reps</option>
-                        <option value="8">8 reps</option>
-                        <option value="9">9 reps</option>
-                        <option value="10">10 reps</option>
-                        <option value="12">12 reps</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="estimated-1rm" id="estimated-display">
-                Estimated 1RM: <span id="estimated-value">---</span>
-                <div class="estimate-warning">⚠️ Rep-based estimates become less accurate above 5 reps. For best results, use a known 1RM or a heavy double or triple.</div>
-            </div>
-
-            <div class="unit-toggle">
-                <button class="unit-btn active" data-unit="lbs">LBS</button>
-                <button class="unit-btn" data-unit="kg">KG</button>
-            </div>
-
-            <button class="generate-btn" id="generate">Generate Program</button>
-        </section>
-
-        <section class="program-output" id="program-output">
-            <div class="program-header">
-                <div>
-                    <h2 class="section-title" style="margin-bottom: 5px;">Your 6-Week Program</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-dim);">Based on <span id="display-1rm">---</span> <span id="display-unit">lbs</span> 1RM</p>
-                </div>
-                <div class="program-stats">
-                    <div class="stat">
-                        <div class="stat-value">18</div>
-                        <div class="stat-label">Sessions</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value" id="total-reps">---</div>
-                        <div class="stat-label">Total Reps</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="program-table-container">
-                <table class="program-table" id="program-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Day 1</th>
-                            <th>Day 2</th>
-                            <th>Day 3</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="action-buttons">
-                <button class="action-btn" id="reset-btn">↺ New Program</button>
-            </div>
-        </section>
-
-        <div class="info-sections">
-            <div class="info-card">
-                <h3 class="info-title">About 1RM Estimation</h3>
-                <p>This calculator uses the <strong>Brzycki formula</strong>: 1RM = weight × (36 / (37 - reps)). While useful for approximation, rep-based estimates have inherent limitations. Accuracy decreases significantly beyond 5 reps due to individual differences in muscle fiber composition, fatigue tolerance, and lifting technique.</p>
-                <p style="margin-top: 12px;">Additionally, <strong>neural drive varies greatly between individuals</strong>. Some lifters have a highly efficient nervous system that can recruit motor units maximally for a single effort, giving them a disproportionately high 1RM relative to their 5-rep max. Others may grind out rep work but struggle to peak for a true max. This is why two lifters with identical 5-rep maxes can have 1RMs that differ by 10-15%. For program accuracy, testing an actual 1RM or heavy single is always recommended.</p>
-            </div>
-
-            <div class="info-card">
-                <h3 class="info-title">Training Tip: Deload Days</h3>
-                <p>On lighter days programmed with just <strong>6×2 at 80%</strong>, use the reduced intensity to refine technique. Practice <strong>full 2-second pauses at the bottom</strong> with slow and controlled descents. The goal is to build real strength, not to bullshit the weight up or down. You control the weight, don't let it control you.</p>
-            </div>
-
-            <div class="info-card">
-                <h3 class="info-title">A.S. Medvedev & Soviet Periodization</h3>
-                <p><strong>A.S. Medvedev (Алексей Сидорович Медведев)</strong> was a Soviet weightlifting champion before turning to sports science, bringing firsthand competitive experience to his research at the Central Institute of Physical Culture in Moscow. Building on the periodization framework established by Leo Matveyev, Medvedev refined these principles specifically for strength athletes. His research found that the majority of training volume should occur in the <strong>70-85% of 1RM range</strong>. Heavy enough to drive adaptation, light enough to accumulate volume without excessive fatigue. This 6-week program reflects his approach: structured progression through moderate weights, undulating rep schemes, and a calculated taper leading to a peak. A stark contrast to Western "max effort" training philosophies.</p>
-            </div>
-
-            <div class="info-card">
-                <h3 class="info-title">Other Contributions</h3>
-                <p><strong>Yuri Verkhoshansky</strong> developed block periodization and plyometric training, changing how athletes sequence training phases and develop explosive power. His work on the "shock method" (depth jumps) and conjugate sequencing influenced strength sports greatly.</p>
-                <p style="margin-top: 12px;"><strong>A.S. Prilepin</strong> analyzed training logs of over 1,000 Soviet weightlifters to determine optimal volume ranges at various intensities. His research produced <strong>Prilepin's Chart</strong>, still widely used today to program sets and reps based on percentage of 1RM. This is the foundation underlying this program's structure.</p>
-            </div>
-
-            <div class="info-card">
-                <h3 class="info-title">Recommended Reading</h3>
-                <ul class="reading-list">
-                    <li><em>Fundamentals of Sports Training</em> by Leo Matveyev</li>
-                    <li><em>A System of Multi-Year Training in Weightlifting</em> by A.S. Medvedev</li>
-                    <li><a href="https://www.youtube.com/watch?v=NmfNwxy6GwU" target="_blank" class="video-link">Soviet Weightlifting System Overview (YouTube)</a></li>
-                </ul>
+            <div class="field">
+                <label for="unit">Unit</label>
+                <select id="unit">
+                    <option value="lbs" selected>lbs</option>
+                    <option value="kg">kg</option>
+                </select>
             </div>
         </div>
-    </div>
+        <p class="note" id="note"></p>
+
+        <section>
+            <h2>Your program</h2>
+            <p class="empty" id="empty">Enter a weight above to see your program.</p>
+            <table id="program" hidden>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Day 1</th>
+                        <th>Day 2</th>
+                        <th>Day 3</th>
+                    </tr>
+                </thead>
+                <tbody id="program-body"></tbody>
+            </table>
+            <p class="summary" id="summary" hidden></p>
+        </section>
+
+        <section class="about">
+            <h2>About 1RM estimation</h2>
+            <p>If you enter more than one rep, your max is estimated with the <strong>Brzycki formula</strong>: 1RM = weight × 36 / (37 − reps). Estimates get less reliable past 5 reps, and neural efficiency varies a lot between lifters. Two people with the same 5-rep max can have 1RMs 10–15% apart. A tested single, double or triple gives the most accurate program.</p>
+        </section>
+
+        <section class="about">
+            <h2>Light days</h2>
+            <p data-lift-only="squat">Use the <strong>6×2 at 80%</strong> days to refine technique. Take full 2-second pauses at the bottom with a slow, controlled descent. You control the weight; don't let it control you.</p>
+            <p data-lift-only="bench" hidden>Day 2 is a <strong>pause bench, close-grip bench or Spoto press</strong> (each rep paused just above the chest) at 70%. Keep it easy. Rest 2–3 minutes between sets.</p>
+        </section>
+
+        <section class="about">
+            <h2>Where this comes from</h2>
+            <p><strong>A.S. Medvedev</strong> was a Soviet weightlifting champion turned sports scientist at the Central Institute of Physical Culture in Moscow. Building on Leo Matveyev's periodization framework, he found most training volume belongs in the <strong>70–85% of 1RM</strong> range: heavy enough to drive adaptation, light enough to accumulate volume without excess fatigue. This program follows that approach with moderate weights, undulating rep schemes and a taper into a peak.</p>
+            <p><strong>A.S. Prilepin</strong> analyzed the training logs of over 1,000 Soviet weightlifters to find optimal volume ranges at each intensity. The resulting <strong>Prilepin's Chart</strong> underlies this program's structure. <strong>Yuri Verkhoshansky</strong> developed block periodization and the shock method (depth jumps), shaping how athletes sequence training phases.</p>
+        </section>
+
+        <section class="about">
+            <h2>Further reading</h2>
+            <ul>
+                <li><em>Fundamentals of Sports Training</em>, Leo Matveyev</li>
+                <li><em>A System of Multi-Year Training in Weightlifting</em>, A.S. Medvedev</li>
+                <li><a href="https://www.youtube.com/watch?v=NmfNwxy6GwU" target="_blank" rel="noopener">Soviet weightlifting system overview (YouTube)</a></li>
+            </ul>
+        </section>
+    </main>
 
     <script>
         const programs = {
             squat: [
-                // Week 1
                 [
                     { percent: 80, sets: 6, reps: 2 },
                     { percent: 80, sets: 6, reps: 3 },
                     { percent: 80, sets: 6, reps: 2 }
                 ],
-                // Week 2
                 [
                     { percent: 80, sets: 6, reps: 4 },
                     { percent: 80, sets: 6, reps: 2 },
                     { percent: 80, sets: 6, reps: 5 }
                 ],
-                // Week 3
                 [
                     { percent: 80, sets: 6, reps: 2 },
                     { percent: 80, sets: 6, reps: 6 },
                     { percent: 80, sets: 6, reps: 2 }
                 ],
-                // Week 4
                 [
                     { percent: 85, sets: 5, reps: 5 },
                     { percent: 80, sets: 6, reps: 2 },
                     { percent: 90, sets: 4, reps: 4 }
                 ],
-                // Week 5
                 [
                     { percent: 80, sets: 6, reps: 2 },
                     { percent: 95, sets: 3, reps: 3 },
                     { percent: 80, sets: 6, reps: 2 }
                 ],
-                // Week 6
                 [
                     { percent: 100, sets: 2, reps: 2 },
                     { percent: 80, sets: 6, reps: 2 },
@@ -805,39 +362,33 @@
                 ]
             ],
             bench: [
-                // Week 1 — Day A: 80% 6×3, Day B: 70% 5×3, Day C: 80% 6×4
                 [
                     { percent: 80, sets: 6, reps: 3 },
                     { percent: 70, sets: 5, reps: 3 },
                     { percent: 80, sets: 6, reps: 4 }
                 ],
-                // Week 2 — Day A: 80% 8×3, Day B: 70% 5×3, Day C: 80% 7×4
                 [
                     { percent: 80, sets: 8, reps: 3 },
                     { percent: 70, sets: 5, reps: 3 },
                     { percent: 80, sets: 7, reps: 4 }
                 ],
-                // Week 3 — Day A: 80% 6×3, Day B: 70% 5×3, Day C: 80% 6×5
                 [
                     { percent: 80, sets: 6, reps: 3 },
                     { percent: 70, sets: 5, reps: 3 },
                     { percent: 80, sets: 6, reps: 5 }
                 ],
-                // Week 4 — Day A: 85% 5×3, Day B: 70% 5×3, Day C: 87.5% 4×2
                 [
                     { percent: 85, sets: 5, reps: 3 },
                     { percent: 70, sets: 5, reps: 3 },
                     { percent: 87.5, sets: 4, reps: 2 }
                 ],
-                // Week 5 — Day A: 90% 4×2, Day B: 70% 4×3, Day C: 92.5% 3×2
                 [
                     { percent: 90, sets: 4, reps: 2 },
                     { percent: 70, sets: 4, reps: 3 },
                     { percent: 92.5, sets: 3, reps: 2 }
                 ],
-                // Week 6 — Day A: 95% 2×1 then 85% 2×3, Day B: 65% 3×3, Day C: 102.5% max
                 [
-                    { percent: 95, sets: 2, reps: 1, note: 'then 85% 2×3' },
+                    { percent: 95, sets: 2, reps: 1, backoff: { percent: 85, sets: 2, reps: 3 } },
                     { percent: 65, sets: 3, reps: 3 },
                     { percent: 102.5, sets: 1, reps: 1, isMax: true }
                 ]
@@ -845,23 +396,16 @@
         };
 
         let currentLift = 'squat';
-        let currentUnit = 'lbs';
-        let currentMode = '1rm';
-        let calculated1RM = 0;
+        const liftButtons = document.querySelectorAll('.lift-toggle button');
 
-        const modeBtns = document.querySelectorAll('.mode-btn');
-        const unitBtns = document.querySelectorAll('.unit-btn');
-        const directInput = document.getElementById('direct-input');
-        const estimateInput = document.getElementById('estimate-input');
-        const direct1rm = document.getElementById('direct-1rm');
-        const weightLifted = document.getElementById('weight-lifted');
-        const repsCompleted = document.getElementById('reps-completed');
-        const estimatedDisplay = document.getElementById('estimated-display');
-        const estimatedValue = document.getElementById('estimated-value');
-        const generateBtn = document.getElementById('generate');
-        const programOutput = document.getElementById('program-output');
-        const tableBody = document.getElementById('table-body');
-        const resetBtn = document.getElementById('reset-btn');
+        const weightInput = document.getElementById('weight');
+        const repsInput = document.getElementById('reps');
+        const unitInput = document.getElementById('unit');
+        const note = document.getElementById('note');
+        const empty = document.getElementById('empty');
+        const table = document.getElementById('program');
+        const tableBody = document.getElementById('program-body');
+        const summary = document.getElementById('summary');
 
         function estimate1RM(weight, reps) {
             if (reps === 1) return weight;
@@ -872,139 +416,86 @@
             return (oneRM * (percent / 100)).toFixed(1).replace(/\.0$/, '');
         }
 
-        const liftBtns = document.querySelectorAll('.lift-btn');
-        liftBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                liftBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentLift = btn.dataset.lift;
-                // hide any previously generated program when switching lift
-                programOutput.classList.remove('show');
-            });
-        });
+        function render() {
+            const weight = parseFloat(weightInput.value);
+            const reps = parseInt(repsInput.value);
+            const unit = unitInput.value;
 
-        modeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modeBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentMode = btn.dataset.mode;
-
-                if (currentMode === '1rm') {
-                    directInput.classList.add('active');
-                    estimateInput.classList.remove('active');
-                    estimatedDisplay.classList.remove('show');
-                } else {
-                    directInput.classList.remove('active');
-                    estimateInput.classList.add('active');
-                    updateEstimate();
-                }
-            });
-        });
-
-        unitBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                unitBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentUnit = btn.dataset.unit;
-            });
-        });
-
-        function updateEstimate() {
-            const weight = parseFloat(weightLifted.value);
-            const reps = parseInt(repsCompleted.value);
-
-            if (weight && reps) {
-                calculated1RM = estimate1RM(weight, reps);
-                estimatedValue.textContent = `${calculated1RM} ${currentUnit}`;
-                estimatedDisplay.classList.add('show');
-            } else {
-                estimatedDisplay.classList.remove('show');
-            }
-        }
-
-        weightLifted.addEventListener('input', updateEstimate);
-        repsCompleted.addEventListener('change', updateEstimate);
-
-        generateBtn.addEventListener('click', () => {
-            let oneRM;
-
-            if (currentMode === '1rm') {
-                oneRM = parseFloat(direct1rm.value);
-            } else {
-                oneRM = calculated1RM;
-            }
-
-            if (!oneRM || oneRM <= 0) {
-                alert('Please enter a valid weight.');
+            if (!weight || weight <= 0) {
+                note.textContent = '';
+                empty.hidden = false;
+                table.hidden = true;
+                summary.hidden = true;
                 return;
             }
 
-            generateProgram(oneRM);
-        });
+            const oneRM = estimate1RM(weight, reps);
 
-        function generateProgram(oneRM) {
+            if (reps === 1) {
+                note.textContent = '';
+            } else {
+                note.innerHTML = `Estimated 1RM: <strong>${oneRM} ${unit}</strong>` +
+                    (reps > 5 ? '. Estimates above 5 reps are less accurate.' : '');
+            }
+
             tableBody.innerHTML = '';
             let totalReps = 0;
 
             programs[currentLift].forEach((week, weekIndex) => {
                 const row = document.createElement('tr');
 
-                // Week label cell
                 const weekCell = document.createElement('td');
-                weekCell.textContent = `Week ${weekIndex + 1}`;
+                weekCell.textContent = weekIndex + 1;
                 row.appendChild(weekCell);
 
-                // Day cells
                 week.forEach((day) => {
-                    const dayCell = document.createElement('td');
-                    const weight = calcWeight(oneRM, day.percent);
+                    const cell = document.createElement('td');
                     totalReps += day.sets * day.reps;
 
-                    if (day.isMax) {
-                        dayCell.classList.add('max-cell');
-                        dayCell.innerHTML = `
-                            <div class="day-content">
-                                <span class="day-percent">${weight}</span>
-                                <span class="day-prescription">New max attempt!</span>
-                            </div>
-                        `;
-                    } else if (day.note) {
-                        const noteWeight = calcWeight(oneRM, 85);
-                        dayCell.innerHTML = `
-                            <div class="day-content" style="flex-direction:column;gap:6px;">
-                                <div><span class="day-percent">${weight}</span> <span class="day-prescription">${day.sets}×${day.reps}</span></div>
-                                <div style="font-size:0.8rem;color:var(--text-dim);">then <span style="color:var(--gold)">${noteWeight}</span> 2×3</div>
-                            </div>
-                        `;
-                    } else {
-                        dayCell.innerHTML = `
-                            <div class="day-content">
-                                <span class="day-percent">${weight}</span>
-                                <span class="day-prescription">${day.sets} sets of ${day.reps} reps</span>
-                            </div>
+                    const scheme = day.isMax
+                        ? `New max · ${day.percent}%`
+                        : `${day.sets}×${day.reps} · ${day.percent}%`;
+                    if (day.isMax) cell.classList.add('max');
+
+                    cell.innerHTML = `
+                        <span class="weight">${calcWeight(oneRM, day.percent)}</span>
+                        <span class="scheme">${scheme}</span>
+                    `;
+
+                    if (day.backoff) {
+                        const b = day.backoff;
+                        totalReps += b.sets * b.reps;
+                        cell.innerHTML += `
+                            <span class="weight">then ${calcWeight(oneRM, b.percent)}</span>
+                            <span class="scheme">${b.sets}×${b.reps} · ${b.percent}%</span>
                         `;
                     }
-
-                    row.appendChild(dayCell);
+                    row.appendChild(cell);
                 });
 
                 tableBody.appendChild(row);
             });
 
-            document.getElementById('display-1rm').textContent = oneRM;
-            document.getElementById('display-unit').textContent = currentUnit;
-            document.getElementById('total-reps').textContent = totalReps;
-            programOutput.classList.add('show');
-            programOutput.scrollIntoView({ behavior: 'smooth' });
+            summary.textContent = `Weights in ${unit}, based on a ${oneRM} ${unit} max. 18 sessions, ${totalReps} total reps.`;
+            empty.hidden = true;
+            table.hidden = false;
+            summary.hidden = false;
         }
 
-        resetBtn.addEventListener('click', () => {
-            programOutput.classList.remove('show');
-            direct1rm.value = '';
-            weightLifted.value = '';
-            estimatedDisplay.classList.remove('show');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        liftButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                currentLift = btn.dataset.lift;
+                liftButtons.forEach((b) => b.setAttribute('aria-pressed', b === btn));
+                document.querySelectorAll('[data-lift-only]').forEach((el) => {
+                    el.hidden = el.dataset.liftOnly !== currentLift;
+                });
+                render();
+            });
         });
+
+        weightInput.addEventListener('input', render);
+        repsInput.addEventListener('change', render);
+        unitInput.addEventListener('change', render);
     </script>
 </body>
 </html>
