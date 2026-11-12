@@ -3,24 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soviet Strength Program</title>
+    <title>Periodized Strength Program</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #1a1a1a;
-            --muted: #6b6b6b;
-            --line: #e4e4e4;
-            --accent: #b3261e;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #141414;
-                --text: #ececec;
-                --muted: #9a9a9a;
-                --line: #2c2c2c;
-                --accent: #e5574f;
-            }
+            --bg: #0a100b;
+            --text: #74ff98;
+            --dim: #3fa35d;
+            --glow: rgba(116, 255, 152, 0.45);
         }
 
         * {
@@ -29,302 +19,227 @@
             box-sizing: border-box;
         }
 
+        html {
+            background: var(--bg);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'VT323', monospace;
+            font-size: 21px;
+            line-height: 1.2;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.5;
+            text-shadow: 0 0 5px var(--glow);
+            min-height: 100vh;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
         }
 
         main {
-            max-width: 680px;
+            max-width: 80ch;
             margin: 0 auto;
-            padding: 56px 16px 80px;
+            padding: 24px 16px 64px;
         }
 
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .lede {
-            color: var(--muted);
-            margin-top: 6px;
-        }
-
-        h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        section {
-            margin-top: 48px;
-        }
-
-        .lift-toggle {
-            display: inline-flex;
-            margin-top: 24px;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 3px;
-            gap: 3px;
-        }
-
-        .lift-toggle button {
+        p, pre, h1, h2, li {
             font: inherit;
-            font-weight: 500;
-            color: var(--muted);
-            background: transparent;
-            border: 0;
-            border-radius: 6px;
-            padding: 8px 20px;
-            min-height: 40px;
-            cursor: pointer;
+            white-space: pre-wrap;
         }
 
-        .lift-toggle button[aria-pressed="true"] {
-            background: var(--accent);
-            color: #fff;
+        h1, h2 {
+            font-weight: normal;
         }
 
-        /* Inputs */
-        .inputs {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: flex-end;
-            margin-top: 32px;
+        .dim {
+            color: var(--dim);
         }
 
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+
+        .rule {
+            overflow: hidden;
+            white-space: nowrap;
+            color: var(--dim);
         }
 
-        .field.grow {
-            flex: 1;
-            min-width: 140px;
+        .rule::before {
+            content: '================================================================================================';
         }
 
-        label {
-            font-size: 0.85rem;
-            color: var(--muted);
+        .gap {
+            height: 1.2em;
         }
 
-        input, select {
+        button, input, select {
             font: inherit;
             color: inherit;
-            background: transparent;
-            border: 1px solid var(--line);
-            border-radius: 6px;
-            padding: 10px 12px;
-            min-height: 44px;
+            text-shadow: inherit;
+            background: none;
+            border: 0;
+            border-radius: 0;
+            appearance: none;
+            -webkit-appearance: none;
         }
 
-        input:focus, select:focus {
-            outline: 2px solid var(--accent);
-            outline-offset: -1px;
-            border-color: transparent;
+        button {
+            cursor: pointer;
+            white-space: pre;
         }
 
-        .note {
-            margin-top: 12px;
-            font-size: 0.9rem;
-            color: var(--muted);
-            min-height: 1.35em;
+        button[aria-pressed="false"] {
+            color: var(--dim);
         }
 
-        .note strong {
-            color: var(--text);
-            font-weight: 600;
+        input {
+            width: 7ch;
+            caret-color: var(--text);
         }
 
-        /* Program table */
-        .empty {
-            color: var(--muted);
-            padding: 24px 0;
-            border-top: 1px solid var(--line);
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-variant-numeric: tabular-nums;
+        input[type="number"] {
+            -moz-appearance: textfield;
         }
 
-        th, td {
-            text-align: left;
-            padding: 12px 8px;
-            border-bottom: 1px solid var(--line);
-            vertical-align: top;
+        input::placeholder {
+            color: var(--dim);
         }
 
-        th {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--muted);
+        select {
+            cursor: pointer;
+            padding-right: 0;
         }
 
-        th:first-child, td:first-child {
-            padding-left: 0;
-            width: 3.5em;
-            color: var(--muted);
-        }
-
-        .weight {
-            display: block;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .scheme {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--muted);
-            white-space: nowrap;
-        }
-
-        .max .weight,
-        .max .scheme {
-            color: var(--accent);
-        }
-
-        .summary {
-            margin-top: 12px;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        /* Notes */
-        .about p, .about li {
-            color: var(--muted);
-        }
-
-        .about p + p {
-            margin-top: 12px;
-        }
-
-        .about strong, .about em {
+        select option {
+            background: var(--bg);
             color: var(--text);
         }
 
-        .about ul {
+        input:focus, select:focus, button:focus {
+            outline: none;
+        }
+
+        input:focus-visible, select:focus-visible, button:focus-visible {
+            text-decoration: underline;
+        }
+
+        .row {
+            white-space: pre;
+        }
+
+        #program {
+            white-space: pre;
+        }
+
+        ul {
             list-style: none;
         }
 
-        .about li + li {
-            margin-top: 4px;
+        a {
+            color: inherit;
         }
 
-        a {
-            color: var(--accent);
+        .cursor {
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         @media print {
             :root {
                 --bg: #fff;
                 --text: #000;
-                --muted: #555;
-                --line: #ccc;
+                --dim: #444;
+                --glow: transparent;
             }
 
-            .inputs, .note, .about {
+            body::after, .controls, .about {
                 display: none;
-            }
-
-            main {
-                padding-top: 0;
             }
         }
     </style>
 </head>
 <body>
     <main>
-        <header>
-            <h1>Soviet Based Strength Program</h1>
-            <p class="lede">A 6-week, 3-day-a-week peaking cycle for one lift, based on your 1-rep max.</p>
-            <div class="lift-toggle" role="group" aria-label="Lift">
-                <button type="button" data-lift="squat" aria-pressed="true">Squat</button>
-                <button type="button" data-lift="bench" aria-pressed="false">Bench</button>
-            </div>
-        </header>
+        <h1>PERIODIZED STRENGTH PROGRAM</h1>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="dim">6-WEEK, 3-DAY PEAKING CYCLE FOR ONE LIFT,
+BASED ON YOUR 1-REP MAX.</p>
+        <div class="gap"></div>
 
-        <div class="inputs">
-            <div class="field grow">
-                <label for="weight">Weight</label>
-                <input type="number" id="weight" inputmode="decimal" min="0" placeholder="e.g. 225">
-            </div>
-            <div class="field">
-                <label for="reps">Reps</label>
-                <select id="reps">
-                    <option value="1" selected>1 (true max)</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-            <div class="field">
-                <label for="unit">Unit</label>
-                <select id="unit">
-                    <option value="lbs" selected>lbs</option>
-                    <option value="kg">kg</option>
-                </select>
-            </div>
+        <div class="controls">
+            <div class="row" role="group" aria-label="Lift">LIFT    <button type="button" data-lift="squat" aria-pressed="true">(*) SQUAT</button>   <button type="button" data-lift="bench" aria-pressed="false">( ) BENCH</button></div>
+            <div class="row"><label for="weight">WEIGHT</label>  [<input type="number" id="weight" inputmode="decimal" min="0" placeholder="_______">]</div>
+            <div class="row"><label for="reps">REPS</label>    [<select id="reps">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+            </select>]  <label for="unit">UNIT</label> [<select id="unit">
+                <option value="lbs" selected>LBS</option>
+                <option value="kg">KG</option>
+            </select>]</div>
+            <p id="note" class="dim"></p>
         </div>
-        <p class="note" id="note"></p>
+        <div class="gap"></div>
 
-        <section>
-            <h2>Your program</h2>
-            <p class="empty" id="empty">Enter a weight above to see your program.</p>
-            <table id="program" hidden>
-                <thead>
-                    <tr>
-                        <th>Week</th>
-                        <th>Day 1</th>
-                        <th>Day 2</th>
-                        <th>Day 3</th>
-                    </tr>
-                </thead>
-                <tbody id="program-body"></tbody>
-            </table>
-            <p class="summary" id="summary" hidden></p>
+        <h2>== YOUR PROGRAM ==</h2>
+        <div class="gap"></div>
+        <p id="empty" class="dim">ENTER WEIGHT TO GENERATE PROGRAM.</p>
+        <pre id="program" hidden></pre>
+        <p id="summary" class="dim" hidden></p>
+
+        <section class="about">
+            <div class="gap"></div>
+            <h2>== ABOUT 1RM ESTIMATION ==</h2>
+            <p>If you enter more than one rep, your max is estimated with the Brzycki formula: 1RM = weight x 36 / (37 - reps). Estimates get less reliable past 5 reps, and neural efficiency varies a lot between lifters. Two people with the same 5-rep max can have 1RMs 10-15% apart. A tested single, double or triple gives the most accurate program.</p>
         </section>
 
         <section class="about">
-            <h2>About 1RM estimation</h2>
-            <p>If you enter more than one rep, your max is estimated with the <strong>Brzycki formula</strong>: 1RM = weight × 36 / (37 − reps). Estimates get less reliable past 5 reps, and neural efficiency varies a lot between lifters. Two people with the same 5-rep max can have 1RMs 10–15% apart. A tested single, double or triple gives the most accurate program.</p>
+            <div class="gap"></div>
+            <h2>== LIGHT DAYS ==</h2>
+            <p data-lift-only="squat">Use the 6x2 at 80% days to refine technique. Take full 2-second pauses at the bottom with a slow, controlled descent. You control the weight; don't let it control you.</p>
+            <p data-lift-only="bench" hidden>Day 2 is a pause bench, close-grip bench or Spoto press (each rep paused just above the chest) at 70%. Keep it easy. Rest 2-3 minutes between sets.</p>
         </section>
 
         <section class="about">
-            <h2>Light days</h2>
-            <p data-lift-only="squat">Use the <strong>6×2 at 80%</strong> days to refine technique. Take full 2-second pauses at the bottom with a slow, controlled descent. You control the weight; don't let it control you.</p>
-            <p data-lift-only="bench" hidden>Day 2 is a <strong>pause bench, close-grip bench or Spoto press</strong> (each rep paused just above the chest) at 70%. Keep it easy. Rest 2–3 minutes between sets.</p>
+            <div class="gap"></div>
+            <h2>== WHERE THIS COMES FROM ==</h2>
+            <p>A.S. MEDVEDEV was a Soviet weightlifting champion turned sports scientist at the Central Institute of Physical Culture in Moscow. Building on Leo Matveyev's periodization framework, he found most training volume belongs in the 70-85% of 1RM range: heavy enough to drive adaptation, light enough to accumulate volume without excess fatigue. This program follows that approach with moderate weights, undulating rep schemes and a taper into a peak.</p>
+            <div class="gap"></div>
+            <p>A.S. PRILEPIN analyzed the training logs of over 1,000 Soviet weightlifters to find optimal volume ranges at each intensity. The resulting PRILEPIN'S CHART underlies this program's structure. YURI VERKHOSHANSKY developed block periodization and the shock method (depth jumps), shaping how athletes sequence training phases.</p>
         </section>
 
         <section class="about">
-            <h2>Where this comes from</h2>
-            <p><strong>A.S. Medvedev</strong> was a Soviet weightlifting champion turned sports scientist at the Central Institute of Physical Culture in Moscow. Building on Leo Matveyev's periodization framework, he found most training volume belongs in the <strong>70–85% of 1RM</strong> range: heavy enough to drive adaptation, light enough to accumulate volume without excess fatigue. This program follows that approach with moderate weights, undulating rep schemes and a taper into a peak.</p>
-            <p><strong>A.S. Prilepin</strong> analyzed the training logs of over 1,000 Soviet weightlifters to find optimal volume ranges at each intensity. The resulting <strong>Prilepin's Chart</strong> underlies this program's structure. <strong>Yuri Verkhoshansky</strong> developed block periodization and the shock method (depth jumps), shaping how athletes sequence training phases.</p>
-        </section>
-
-        <section class="about">
-            <h2>Further reading</h2>
+            <div class="gap"></div>
+            <h2>== FURTHER READING ==</h2>
             <ul>
-                <li><em>Fundamentals of Sports Training</em>, Leo Matveyev</li>
-                <li><em>A System of Multi-Year Training in Weightlifting</em>, A.S. Medvedev</li>
-                <li><a href="https://www.youtube.com/watch?v=NmfNwxy6GwU" target="_blank" rel="noopener">Soviet weightlifting system overview (YouTube)</a></li>
+                <li>- FUNDAMENTALS OF SPORTS TRAINING, Leo Matveyev</li>
+                <li>- A SYSTEM OF MULTI-YEAR TRAINING IN WEIGHTLIFTING, A.S. Medvedev</li>
+                <li>- <a href="https://www.youtube.com/watch?v=NmfNwxy6GwU" target="_blank" rel="noopener">SOVIET WEIGHTLIFTING SYSTEM OVERVIEW (YOUTUBE)</a></li>
             </ul>
         </section>
+
+        <div class="gap"></div>
+        <p>READY.</p>
+        <p><span class="cursor">_</span></p>
     </main>
 
     <script>
@@ -396,15 +311,13 @@
         };
 
         let currentLift = 'squat';
-        const liftButtons = document.querySelectorAll('.lift-toggle button');
-
+        const liftButtons = document.querySelectorAll('[data-lift]');
         const weightInput = document.getElementById('weight');
         const repsInput = document.getElementById('reps');
         const unitInput = document.getElementById('unit');
         const note = document.getElementById('note');
         const empty = document.getElementById('empty');
-        const table = document.getElementById('program');
-        const tableBody = document.getElementById('program-body');
+        const program = document.getElementById('program');
         const summary = document.getElementById('summary');
 
         function estimate1RM(weight, reps) {
@@ -416,76 +329,79 @@
             return (oneRM * (percent / 100)).toFixed(1).replace(/\.0$/, '');
         }
 
+        function charsAcross() {
+            const probe = document.createElement('span');
+            probe.textContent = '0'.repeat(20);
+            program.hidden = false;
+            program.appendChild(probe);
+            const perChar = probe.getBoundingClientRect().width / 20;
+            probe.remove();
+            return Math.floor(program.clientWidth / perChar);
+        }
+
+        function cellLines(day, oneRM) {
+            const scheme = `${day.sets}x${day.reps} ${day.percent}%`;
+            if (day.isMax) return [`${calcWeight(oneRM, day.percent)} !!`, `MAX ${day.percent}%`];
+            const lines = [calcWeight(oneRM, day.percent), scheme];
+            if (day.backoff) {
+                const b = day.backoff;
+                lines.push(`THEN ${calcWeight(oneRM, b.percent)}`, `${b.sets}x${b.reps} ${b.percent}%`);
+            }
+            return lines;
+        }
+
         function render() {
             const weight = parseFloat(weightInput.value);
             const reps = parseInt(repsInput.value);
-            const unit = unitInput.value;
+            const unit = unitInput.value.toUpperCase();
 
             if (!weight || weight <= 0) {
                 note.textContent = '';
                 empty.hidden = false;
-                table.hidden = true;
+                program.hidden = true;
                 summary.hidden = true;
                 return;
             }
 
             const oneRM = estimate1RM(weight, reps);
+            note.textContent = reps === 1 ? '' :
+                `> ESTIMATED 1RM: ${oneRM} ${unit}` + (reps > 5 ? '\n> WARNING: LESS ACCURATE ABOVE 5 REPS' : '');
 
-            if (reps === 1) {
-                note.textContent = '';
-            } else {
-                note.innerHTML = `Estimated 1RM: <strong>${oneRM} ${unit}</strong>` +
-                    (reps > 5 ? '. Estimates above 5 reps are less accurate.' : '');
-            }
+            const col = Math.max(10, Math.min(16, Math.floor((charsAcross() - 4) / 3) - 1));
+            const pad = (s, n) => String(s).padEnd(n);
+            const out = [];
+            out.push(pad('WK', 4) + ['DAY 1', 'DAY 2', 'DAY 3'].map(d => pad(d, col)).join(' ').trimEnd());
+            out.push(pad('--', 4) + Array(3).fill('-'.repeat(col)).join(' '));
 
-            tableBody.innerHTML = '';
             let totalReps = 0;
-
-            programs[currentLift].forEach((week, weekIndex) => {
-                const row = document.createElement('tr');
-
-                const weekCell = document.createElement('td');
-                weekCell.textContent = weekIndex + 1;
-                row.appendChild(weekCell);
-
-                week.forEach((day) => {
-                    const cell = document.createElement('td');
-                    totalReps += day.sets * day.reps;
-
-                    const scheme = day.isMax
-                        ? `New max · ${day.percent}%`
-                        : `${day.sets}×${day.reps} · ${day.percent}%`;
-                    if (day.isMax) cell.classList.add('max');
-
-                    cell.innerHTML = `
-                        <span class="weight">${calcWeight(oneRM, day.percent)}</span>
-                        <span class="scheme">${scheme}</span>
-                    `;
-
-                    if (day.backoff) {
-                        const b = day.backoff;
-                        totalReps += b.sets * b.reps;
-                        cell.innerHTML += `
-                            <span class="weight">then ${calcWeight(oneRM, b.percent)}</span>
-                            <span class="scheme">${b.sets}×${b.reps} · ${b.percent}%</span>
-                        `;
-                    }
-                    row.appendChild(cell);
+            programs[currentLift].forEach((week, i) => {
+                const cells = week.map(day => {
+                    totalReps += day.sets * day.reps + (day.backoff ? day.backoff.sets * day.backoff.reps : 0);
+                    return cellLines(day, oneRM);
                 });
-
-                tableBody.appendChild(row);
+                const height = Math.max(...cells.map(c => c.length));
+                for (let line = 0; line < height; line++) {
+                    const label = line === 0 ? String(i + 1).padStart(2) : '';
+                    out.push(pad(label, 4) + cells.map(c => pad(c[line] || '', col)).join(' ').trimEnd());
+                }
+                if (i < 5) out.push('');
             });
 
-            summary.textContent = `Weights in ${unit}, based on a ${oneRM} ${unit} max. 18 sessions, ${totalReps} total reps.`;
+            program.textContent = out.join('\n');
+            summary.textContent = `\nWEIGHTS IN ${unit}. 1RM = ${oneRM} ${unit}.\n18 SESSIONS. ${totalReps} TOTAL REPS.`;
             empty.hidden = true;
-            table.hidden = false;
+            program.hidden = false;
             summary.hidden = false;
         }
 
         liftButtons.forEach((btn) => {
             btn.addEventListener('click', () => {
                 currentLift = btn.dataset.lift;
-                liftButtons.forEach((b) => b.setAttribute('aria-pressed', b === btn));
+                liftButtons.forEach((b) => {
+                    const on = b === btn;
+                    b.setAttribute('aria-pressed', on);
+                    b.textContent = `(${on ? '*' : ' '}) ${b.dataset.lift.toUpperCase()}`;
+                });
                 document.querySelectorAll('[data-lift-only]').forEach((el) => {
                     el.hidden = el.dataset.liftOnly !== currentLift;
                 });
@@ -496,6 +412,7 @@
         weightInput.addEventListener('input', render);
         repsInput.addEventListener('change', render);
         unitInput.addEventListener('change', render);
+        window.addEventListener('resize', render);
     </script>
 </body>
 </html>
